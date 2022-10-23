@@ -145,6 +145,14 @@ Settings.add(new Setting<string>('saveReminder', 'Save reminder interval (in gam
     ],
     (12 * HOUR).toString()));
 Settings.add(new Setting('breedingQueueSizeSetting', 'Breeding Queue Size', [], '-1'));
+Settings.add(new Setting<string>('rateLimitModifier', 'Modify the rate at which some values are updated. (May result in better performance at the cost of delayed updates)',
+    [
+        new SettingOption('1.0x', '1'),
+        new SettingOption('1.5x', '1.5'),
+        new SettingOption('2.0x', '2'),
+        new SettingOption('2.5x', '2.5'),
+        new SettingOption('3.0x', '3'),
+    ], '1'));
 
 // Sound settings
 Object.values(NotificationConstants.NotificationSound).forEach((soundGroup) => {

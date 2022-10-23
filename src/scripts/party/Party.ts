@@ -16,6 +16,8 @@ class Party implements Feature {
 
     _caughtPokemonLookup: KnockoutComputed<Map<number, PartyPokemon>>;
 
+    _rateLimitModifier = ko.observable('1');
+
 
     constructor(private multiplier: Multiplier) {
         this._caughtPokemon = ko.observableArray([]);
@@ -38,6 +40,7 @@ class Party implements Feature {
             }, new Map());
         });
 
+        this._rateLimitModifier(Settings.getSetting('rateLimitModifier').value);
     }
 
     gainPokemonById(id: number, shiny = false, suppressNotification = false, gender = -1) {
@@ -198,7 +201,7 @@ class Party implements Feature {
 
     public pokemonAttackObservable: KnockoutComputed<number> = ko.pureComputed(() => {
         return App.game.party.calculatePokemonAttack();
-    }).extend({rateLimit: 1000});
+    }).extend({rateLimit: 1000 * (+this._rateLimitModifier.peek)});
 
     public getPokemon(id: number): PartyPokemon | undefined {
         return this._caughtPokemonLookup().get(id);
